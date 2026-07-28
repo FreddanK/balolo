@@ -18,6 +18,11 @@ set(CMAKE_CXX_CLANG_TIDY
     "${CLANG_TIDY}"
 )
 
+find_program(CCACHE_PROGRAM ccache REQUIRED)
+
+set(CMAKE_CXX_COMPILER_LAUNCHER "${CCACHE_PROGRAM}")
+set(CMAKE_C_COMPILER_LAUNCHER "${CCACHE_PROGRAM}")
+
 add_compile_options(-Wall -Wextra -Wpedantic -Werror -Wshadow -Wconversion -Wsign-conversion)
 add_executable(hello-world
     src/main.cpp

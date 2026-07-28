@@ -1,0 +1,4 @@
+Start using podman compose to share container configuration between the justfile and vscode, 
+see ChatGPT conversation Use LDD with clang
+
+Then start to write some actual code.
