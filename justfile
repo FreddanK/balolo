@@ -24,12 +24,12 @@ start-dev-container: build-dev-container
 clean: 
     rm -rf build
 
-build:
+format:
+    clang-format -i $(git ls-files --cached --others --exclude-standard -- '*.cpp' '*.h') --verbose
+
+build: format
     cmake -S . -B build -G Ninja
     cmake --build build --verbose
 
 run: build
     ./build/{{EXECUTABLE_NAME}}
-
-format:
-    clang-format -i $(git ls-files --cached --others --exclude-standard -- '*.cpp' '*.h') --verbose
