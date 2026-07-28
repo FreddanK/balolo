@@ -21,9 +21,15 @@ start-dev-container: build-dev-container
 
 # Projects commands, run from inside the container 
 
+clean: 
+    rm -rf build
+
 build:
-    cmake -S {{justfile_directory()}} -B build -G Ninja && \
-    cmake --build build
+    cmake -S . -B build -G Ninja
+    cmake --build build --verbose
 
 run: build
-    {{justfile_directory()}}/build/{{EXECUTABLE_NAME}}
+    ./build/{{EXECUTABLE_NAME}}
+
+format:
+    clang-format -i $(git ls-files --cached --others --exclude-standard -- '*.cpp' '*.h') --verbose
