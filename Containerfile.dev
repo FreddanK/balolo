@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM ubuntu:26.04
 
 ARG USERNAME=developer
 ARG USER_UID=1000
@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     clang-tidy \
     ccache \
     neovim \
+    libboost-all-dev \
     && rm -rf /var/lib/apt/lists/*
 
 RUN if id -u ${USERNAME} >/dev/null 2>&1; then \
