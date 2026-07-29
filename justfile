@@ -27,3 +27,6 @@ build: format
 
 run: build
     ./build/{{EXECUTABLE_NAME}}
+
+tidy: format build
+    clang-tidy -p build $(git ls-files --cached --others --exclude-standard -- '*.cpp')
