@@ -1,11 +1,7 @@
 {
     "name": "balolo-dev",
-    "build": {
-        "dockerfile": "../Containerfile.dev"
-    },
+    "dockerComposeFile": "../compose.yml",
+    "service": "dev",
     "workspaceFolder": "/workspace",
-    "mounts": [
-        "source=${localWorkspaceFolder},target=/workspace,type=bind"
-    ],
-    "remoteUser": "root"
+    "remoteUser": "developer"
 }

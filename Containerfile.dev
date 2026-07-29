@@ -1,5 +1,9 @@
 FROM ubuntu:24.04
 
+ARG USERNAME=developer
+ARG USER_UID=1000
+ARG USER_GID=1000
+
 RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
@@ -14,8 +18,21 @@ RUN apt-get update && apt-get install -y \
     neovim \
     && rm -rf /var/lib/apt/lists/*
 
+RUN if id -u ${USERNAME} >/dev/null 2>&1; then \
+        echo "User exists"; \
+    elif id -u ${USER_UID} >/dev/null 2>&1; then \
+        existing_user=$(getent passwd ${USER_UID} | cut -d: -f1); \
+        usermod --login ${USERNAME} ${existing_user}; \
+        groupmod --new-name ${USERNAME} $(getent group ${USER_GID} | cut -d: -f1); \
+        usermod --home /home/${USERNAME} --move-home ${USERNAME}; \
+    else \
+        groupadd --gid ${USER_GID} ${USERNAME}; \
+        useradd --uid ${USER_UID} --gid ${USER_GID} -m ${USERNAME}; \
+    fi
+
+USER $USERNAME
+
+RUN mkdir -p /home/developer/.ccache
 RUN ccache --set-config max_size=10G
 
 WORKDIR /workspace
-
-CMD ["/bin/bash"]

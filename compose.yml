@@ -1,0 +1,16 @@
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Containerfile.dev
+    image: balolo-dev
+    working_dir: /workspace
+    command: sleep infinity
+    volumes:
+      - .:/workspace
+      - ccache:/home/developer/.ccache
+    stdin_open: true
+    tty: true
+
+volumes:
+  ccache:
