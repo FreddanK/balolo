@@ -24,10 +24,10 @@ int main(int argc, char** argv) {
                       << "    http-client-sync www.example.com 80 / 1.0\n";
             return EXIT_FAILURE;
         }
-        auto const host = argv[1];
-        auto const port = argv[2];
-        auto const target = argv[3];
-        int version = argc == 5 && !std::strcmp("1.0", argv[4]) ? 10 : 11;
+        auto* const host = argv[1];
+        auto* const port = argv[2];
+        auto* const target = argv[3];
+        int version = argc == 5 && !static_cast<bool>(std::strcmp("1.0", argv[4])) ? 10 : 11;
 
         // The io_context is required for all I/O
         net::io_context ioc;
@@ -60,11 +60,11 @@ int main(int argc, char** argv) {
         http::read(stream, buffer, res);
 
         // Write the message to standard out
-        std::cout << res << std::endl;
+        std::cout << res << '\n';
 
         // Gracefully close the socket
         beast::error_code ec;
-        stream.socket().shutdown(tcp::socket::shutdown_both, ec);
+        ec = stream.socket().shutdown(tcp::socket::shutdown_both, ec);
 
         // not_connected happens sometimes
         // so don't bother reporting it.
@@ -75,8 +75,9 @@ int main(int argc, char** argv) {
 
         // If we get here then the connection is closed gracefully
     } catch (std::exception const& e) {
-        std::cerr << "Error: " << e.what() << std::endl;
+        std::cerr << "Error: " << e.what() << '\n';
         return EXIT_FAILURE;
     }
+
     return EXIT_SUCCESS;
 }

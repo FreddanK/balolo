@@ -1,7 +1,2 @@
-Make sure everything with boost is set up correctly (in the boost documentation
-it looked like the CMakeLists.txt might need something for boost )
-
 Test the http client program by running a http server (maybe a python script or if there is something simpler)
 that responds to the http request from the client application.
-
-Fix the clang-tidy warnings

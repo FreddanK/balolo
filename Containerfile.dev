@@ -19,6 +19,17 @@ RUN apt-get update && apt-get install -y \
     libboost-all-dev \
     && rm -rf /var/lib/apt/lists/*
 
+# Remove gcc-16 because clang will select gcc-16 but fail to find libstdc++ 
+# since there is no g++-16
+RUN apt-get remove -y \
+    gcc-16-x86-64-linux-gnu \
+    gcc-16 \
+    libgcc-16-dev \
+    libgfortran-16-dev \
+    gfortran-16-x86-64-linux-gnu
+
+RUN apt-get autoremove -y
+
 RUN if id -u ${USERNAME} >/dev/null 2>&1; then \
         echo "User exists"; \
     elif id -u ${USER_UID} >/dev/null 2>&1; then \
@@ -35,5 +46,8 @@ USER $USERNAME
 
 RUN mkdir -p /home/developer/.ccache
 RUN ccache --set-config max_size=10G
+
+ENV CC=clang
+ENV CXX=clang++
 
 WORKDIR /workspace

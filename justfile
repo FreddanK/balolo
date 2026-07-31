@@ -2,7 +2,7 @@ default:
     @just --list
 
 PROJECT_NAME := "balolo"
-EXECUTABLE_NAME:= "hello-world" # if changing this, also update the CMakeLists.txt file 
+EXECUTABLE_NAME:= PROJECT_NAME # if changing this, also update the CMakeLists.txt file 
 
 # Container commands, run from the host machine
 
@@ -21,12 +21,14 @@ clean:
 format:
     clang-format -i $(git ls-files --cached --others --exclude-standard -- '*.cpp' '*.h') --verbose
 
-build: format
+configure:
     cmake -S . -B build -G Ninja
+
+build: format configure
     cmake --build build --verbose
 
-run: build
-    ./build/{{EXECUTABLE_NAME}}
-
-tidy: format build
+tidy: build
     clang-tidy -p build $(git ls-files --cached --others --exclude-standard -- '*.cpp')
+
+run *args: build
+    ./build/{{EXECUTABLE_NAME}} {{args}}
