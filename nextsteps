@@ -1,2 +1,0 @@
-Test the http client program by running a http server (maybe a python script or if there is something simpler)
-that responds to the http request from the client application.
