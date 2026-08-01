@@ -27,6 +27,9 @@ configure:
 build: format configure
     cmake --build build --verbose
 
+test: build
+    ctest --test-dir build --output-on-failure
+
 tidy: build
     clang-tidy -p build $(git ls-files --cached --others --exclude-standard -- '*.cpp')
 

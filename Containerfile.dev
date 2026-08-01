@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y \
     ccache \
     neovim \
     libboost-all-dev \
+    libgtest-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Remove gcc-16 because clang will select gcc-16 but fail to find libstdc++ 
