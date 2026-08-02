@@ -1,9 +1,22 @@
 services:
+  builder:
+    build:
+      context: .
+      dockerfile: Containerfile.build
+    image: balolo-builder
+    working_dir: /workspace
+    command: just build
+    volumes:
+      - .:/workspace
+      - ccache:/home/builder/.ccache
+
   dev:
     build:
       context: .
       dockerfile: Containerfile.dev
     image: balolo-dev
+    depends_on:
+      - builder
     working_dir: /workspace
     command: sleep infinity
     volumes:

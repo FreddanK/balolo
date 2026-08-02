@@ -6,7 +6,10 @@ EXECUTABLE_NAME:= PROJECT_NAME # if changing this, also update the CMakeLists.tx
 
 # Container commands, run from the host machine
 
-build-dev:
+build-builder:
+    docker compose build builder
+
+build-dev: build-builder
     docker compose build dev
 
 dev: build-dev
