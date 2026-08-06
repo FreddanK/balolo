@@ -19,12 +19,16 @@ find_program(CCACHE_PROGRAM ccache REQUIRED)
 set(CMAKE_CXX_COMPILER_LAUNCHER "${CCACHE_PROGRAM}")
 set(CMAKE_C_COMPILER_LAUNCHER "${CCACHE_PROGRAM}")
 
+add_compile_definitions(BOOST_ASIO_NO_DEPRECATED)
 add_compile_options(-Wall -Wextra -Wpedantic -Werror -Wshadow -Wconversion -Wsign-conversion)
 
 add_library(http_client STATIC src/http_client.cpp)
 target_include_directories(http_client PUBLIC src)
 
 add_executable(balolo src/main.cpp)
+target_link_libraries(balolo PRIVATE http_client)
+
+add_executable(simple_server src/http_server_small.cpp)
 target_link_libraries(balolo PRIVATE http_client)
 
 enable_testing()

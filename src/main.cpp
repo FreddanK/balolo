@@ -64,7 +64,7 @@ int main(int argc, char** argv) {
 
         // Gracefully close the socket
         beast::error_code ec;
-        ec = stream.socket().shutdown(tcp::socket::shutdown_both, ec);
+        stream.socket().shutdown(tcp::socket::shutdown_both, ec);
 
         // not_connected happens sometimes
         // so don't bother reporting it.
